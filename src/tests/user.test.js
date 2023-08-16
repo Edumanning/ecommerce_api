@@ -63,7 +63,47 @@ test("PUT => 'URL_BASE/:id', should return status code 200 and res.body.firstNam
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body.firstName).toBe(user.firstName)
-})
+});
+
+test("POST => 'URL_BASE/login', should return status code 200, res.body.email === user.email, and res.body.token to be defined", async () => {
+    const user = {
+        email: "erik@gmail.com",
+        password: "erik123",
+    }
+
+    const res = await request(app)
+        .post(`${URL_BASE}/login`)
+        .send(user)
+
+    expect(res.status).toBe(200)
+    expect(res.body).toBeDefined()
+    expect(res.body.user.email).toBe(user.email)
+    expect(res.body.token).toBeDefined()
+});
+
+test("POST => 'URL_BASE/login', 'URL_BASE/login', should return status code 401", async () => {
+    const user = {
+        email: "erik@gmail.com",
+        password: "invalid password",
+    }
+
+    const res = await request(app)
+        .post(`${URL_BASE}/login`)
+        .send(user)
+
+    expect(res.status).toBe(401)
+});
+
+test("DELETE => 'URL_BASE/login', should return status code 204", async () => {
+    const res = await request(app)
+        .delete(`${URL_BASE}/${userId}`)
+        .send("Authorization", `Bearer ${TOKEN}`)
+
+    expect(res.status).toBe(204)
+});
+
+
+
 
 
 
