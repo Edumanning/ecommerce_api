@@ -47,8 +47,6 @@ test("GET -> 'URL_BASE', should return status code 201 and res.body.length === 1
     const res = await request(app)
         .get(URL_BASE)
 
-        console.log(res.body)
-
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body).toHaveLength(1)
