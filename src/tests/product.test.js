@@ -87,7 +87,6 @@ test("PUT -> 'URL_BASE/:id', should return status code 200 and res.body.title = 
         .set("Authorization", `Bearer ${TOKEN}`)
 
     
-
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body.title).toBe(productUpDate.title)
