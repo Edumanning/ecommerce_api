@@ -2,8 +2,24 @@ const catchError = require('../utils/catchError');
 const Category = require('../models/Category');
 
 const getAll = catchError(async(req, res) => {
-    const results = await Category.findAll();
-    return res.json(results);
+    const userId = req.user.id
+    const result = await Purchase.findAll({
+        where: { userId },
+        include: [
+            {
+                model: Product,
+                attributes: { exclude: ['createdAd', 'updateAt'] },
+                include: [
+                    {
+                        model: Category,
+                        attributes: ['name']
+                    }
+                ]
+
+            }
+        ]
+    });
+    return res.json(result)
 });
 
 const create = catchError(async(req, res) => {

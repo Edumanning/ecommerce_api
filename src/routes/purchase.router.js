@@ -1,6 +1,6 @@
-const { getAll } = require('../controllers/purchase.controller');
+const { getAll, create } = require('../controllers/purchase.controller');
 const express = require('express');
-const { create } = require('../controllers/user.controller');
+
 
 const routerPurchase = express.Router();
 
