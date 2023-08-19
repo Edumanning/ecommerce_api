@@ -1,46 +1,48 @@
 const catchError = require('../utils/catchError');
 const Product = require('../models/Product');
-const Categoy = require('../models/Category')
+const Category = require('../models/Category');
 
-const getAll = catchError(async(req, res) => {
-    const { categoy } = req.query
+const getAll = catchError(async (req, res) => {
+
+    const { category } = req.query
 
     const where = {}
-    if(categoy) where.categoyId = categoy
+    if (category) where.categoryId = category
 
-    const results = await Product.findAll({ 
-        include: [Categoy],        
-        where: where
+    const results = await Product.findAll({
+    include: [Category],
+    // where: { categoryId: category }
+    where
     });
+
     return res.json(results);
 });
 
-const create = catchError(async(req, res) => {
+const create = catchError(async (req, res) => {
     const result = await Product.create(req.body);
     return res.status(201).json(result);
 });
 
-const getOne = catchError(async(req, res) => {
+const getOne = catchError(async (req, res) => {
     const { id } = req.params;
-    const result = await Product.findByPk(id, { include: [Categoy] });
-    if(!result) return res.sendStatus(404);
+    const result = await Product.findByPk(id, { include: [Category] });
+    if (!result) return res.sendStatus(404);
     return res.json(result);
 });
 
-const remove = catchError(async(req, res) => {
+const remove = catchError(async (req, res) => {
     const { id } = req.params;
-    const result = await Product.destroy({ where: {id} });
-    if(!result) return res.sendStatus(404);
+    await Product.destroy({ where: { id } });
     return res.sendStatus(204);
 });
 
-const update = catchError(async(req, res) => {
+const update = catchError(async (req, res) => {
     const { id } = req.params;
     const result = await Product.update(
-        req.body,
-        { where: {id}, returning: true }
+    req.body,
+    { where: { id }, returning: true }
     );
-    if(result[0] === 0) return res.sendStatus(404);
+    if (result[0] === 0) return res.sendStatus(404);
     return res.json(result[1][0]);
 });
 

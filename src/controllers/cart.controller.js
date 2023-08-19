@@ -1,9 +1,26 @@
 const catchError = require('../utils/catchError');
 const Cart = require('../models/Cart');
+const Product = require('../models/Product');
+const Category = require('../models/Category');
 
-const getAll = catchError(async(req, res) => {
+const getAll = catchError(async (req, res) => {
     const userId = req.user.id
-    const results = await Cart.findAll({ where: {userId} });
+    const results = await Cart.findAll({
+        where: { userId },
+        include: [
+        {
+            model: Product,
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+            include: [
+            {
+                model: Category,
+                attributes: ['name']
+            },
+        ]
+
+        }
+    ]
+    });
     return res.json(results);
 });
 
@@ -34,7 +51,7 @@ const update = catchError(async(req, res) => {
     const result = await Cart.update(
         { quantity },
         req.body,
-        { where: {id, userId: userId}, returning: true }
+        { where: {id, userId}, returning: true }
     );
     if(result[0] === 0) return res.sendStatus(404);
     return res.json(result[1][0]);
