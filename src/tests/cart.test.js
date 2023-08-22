@@ -40,21 +40,19 @@ test("POST -> 'URL_BASE', should return status code 201 and res.body.quantity ==
     const bodyCart = {
         quantity: 1,
         productId: product.id
-    }
-
-    const res = await request(app)
-        .post(URL_BASE)
-        .send(bodyCart)
-        .set("Authorization", `Bearer ${TOKEN}`)
-
+        }
+        
+        const res = await request(app)
+            .post(URL_BASE)
+            .send(bodyCart)
+            .set("Authorization", `Bearer ${TOKEN}`)
+        
     cartId = res.body.id
-
-
-    expect(res.status).toBe(201)
-    expect(res.body).toBeDefined()
-    expect(res.body.quantity).toBe(bodyCart.quantity)
-    expect(res.body.id).toBe(userId)
-
+    
+        expect(res.status).toBe(201)
+        expect(res.body).toBeDefined()
+        expect(res.body.quantity).toBe(bodyCart.quantity)
+        expect(res.body.userId).toBe(userId)
 })
 
 test("GET -> 'URL_BASE', should return status code 200 and res.body.length === 1", async()=>{
@@ -82,7 +80,6 @@ test("PUT -> 'URL_BASE/:id', should return status code 200 and res.body.quantity
         .send(bodyUpdate)
         .set("Authorization", `Bearer ${TOKEN}`)
 
-    console.log(res.body);
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body.quantity).toBe(bodyUpdate.quantity)
