@@ -1,6 +1,6 @@
-const { getAll, remove } = require('../controllers/productImg.controller');
+const { getAll, remove ,create} = require('../controllers/productImg.controller');
 const express = require('express');
-const { create } = require('../controllers/user.controller');
+
 const upload = require('../utils/multer')
 
 const routeProductImg = express.Router();
