@@ -1,15 +1,16 @@
-const { getAll, remove ,create} = require('../controllers/productImg.controller');
+const { getAll } = require('../controllers/productImg.controller');
+const { create, remove } = require('../controllers/productImgCloudinary.controller');
+
 const express = require('express');
+const upload = require('../utils/multer');
 
-const upload = require('../utils/multer')
+const routerProductImg = express.Router();
 
-const routeProductImg = express.Router();
-
-routeProductImg.route('/')
+routerProductImg.route('/')
     .get(getAll)
     .post(upload.single('image'), create)
 
-routeProductImg.route('/:id')
+routerProductImg.route("/:id")
     .delete(remove)
 
-module.exports = routeProductImg;
+module.exports = routerProductImg;

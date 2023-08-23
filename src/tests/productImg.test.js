@@ -26,6 +26,8 @@ test("POST -> 'URL_BASE', should status code 201 and res.body.url to be defined 
         .attach('image', localImage)
         .set("Authorization", `Bearer ${TOKEN}`)
 
+        console.log(localImage)
+
     imageId = res.body.id
     expect(res.status).toBe(201)
     expect(res.body).toBeDefined()
